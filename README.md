@@ -6,7 +6,24 @@ This repository provides the web server implementation for the **GRAPE-LM** (Gen
 
 ## How to Run
 
-### 1. Local Environment
+### 1. Docker
+
+```bash
+docker build -t grape-lm-webserver .
+docker run -d \
+  --name grape-lm-webserver \
+  --restart unless-stopped \
+  -p 127.0.0.1:12358:12358 \
+  -v <model_parameters_dir>:/app/model_parameters \
+  -v <tasks_dir>:/app/tasks \
+  grape-lm-webserver
+```
+
+If you need to change the startup parameters (such as address, or maximum concurrent tasks), you can modify the CMD section in the Dockerfile to fit your requirements.
+
+---
+
+### 2. Local Environment
 
 **Requirements:**
 
@@ -45,22 +62,3 @@ This repository provides the web server implementation for the **GRAPE-LM** (Gen
     - `<project_dir>`: Path to your GRAPE project directory
     - `<address:port>`: Address and port to bind (e.g., `127.0.0.1:12358`)
     - `<max_concurrent_tasks>`: Maximum number of concurrent tasks to process
-
----
-
-### 2. Docker
-
-You can also run the webserver using Docker for easier deployment:
-
-```bash
-docker build -t grape-lm-webserver .
-docker run -d \
-  --name grape-lm-webserver \
-  --restart unless-stopped \
-  -p 127.0.0.1:12358:12358 \
-  -v <model_parameters_dir>:/app/model_parameters \
-  -v <tasks_dir>:/app/tasks \
-  grape-lm-webserver
-```
-
-If you need to change the startup parameters (such as address, or maximum concurrent tasks), you can modify the CMD section in the Dockerfile to fit your requirements.
